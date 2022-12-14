@@ -1,5 +1,8 @@
-from django.http import HttpResponse
+from django.shortcuts import render
+from .models import Post
 
 
 def index(request):
-    return HttpResponse("안녕하세요 pybo에 오신것을 환영합니다.")
+    post_list = Post.objects.order_by('-create_date')
+    context = {'post_list': post_list}
+    return render(request, 'pybo/post_list.html', context)
