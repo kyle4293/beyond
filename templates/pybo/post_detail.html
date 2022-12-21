@@ -2,3 +2,8 @@
 <div>
     {{ post.content }}
 </div>
+<form action="{% url 'pybo:commuent_create' post.id %}" method="post">
+    {% csrf_token %}
+    <textarea name="content" id="content" rows="15"></textarea>
+    <input type="submit" value="댓글등록">
+</form>
