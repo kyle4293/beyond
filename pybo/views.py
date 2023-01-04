@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from .models import Post
-from .forms import PostForm
+from .forms import PostForm, CommentForm
+from django.http import HttpResponseNotAllowed
 
 
 def index(request):
@@ -16,8 +17,18 @@ def detail(request, post_id):
 
 def comment_create(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
-    post.comment_set.create(content=request.POST.get('content'), create_date=timezone.now())
-    return redirect('pybo:detail', post_id=post.id)
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.create_date = timezone.now()
+            comment.post = post
+            comment.save()
+            return redirect('pybo:detail', post_id=post.id)
+    else:
+        return HttpResponseNotAllowed('Only POST is possible.')
+    context = {'post': post, 'form': form}
+    return render(request, 'pybo/post_detail.html',context)
 
 def post_create(request):
     if request.method == 'POST':
