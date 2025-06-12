@@ -1,0 +1,9 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/ccg/beyond/cmake-sample/build/cmake_install.cmake",
+		"C:/ccg/beyond/cmake-sample/build/src/cmake_install.cmake",
+		"C:/ccg/beyond/cmake-sample/build/tests/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
